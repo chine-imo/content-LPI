@@ -23,6 +23,7 @@ echo "Attempting to start the Docker service..."
 echo ""
 
 systemctl start docker &> /dev/null
+systemctl enable docker &> /dev/null
 
 if [[ $? == 0 ]]; then
   echo "The Docker service is started."
@@ -33,19 +34,19 @@ else
   exit 2
 fi
 
-echo "Pulling the latest MySQL Database Server Container from Docker Hub."
+echo "Pulling MySQL 5.7 Database Server Container from Docker Hub."
 echo ""
 sleep 3
 echo "This may take a couple of minutes to download. Please stand by..."
 echo ""
 
-docker pull mysql:latest &> /dev/null
+docker pull mysql:5.7 &> /dev/null
 
 if [[ $? == 0 ]]; then
   echo "MySQL Database image has been installed from the Docker Hub."
   echo ""
 else
-  echo "There was a problem pulling the latest MySQL Server Container from Docker Hub. Please retry the script."
+  echo "There was a problem pulling the MySQL Server Container from Docker Hub. Please retry the script."
   echo "If this process persists, try to restart your lab or contact support." 
   exit 4
 fi
@@ -53,7 +54,7 @@ fi
 echo "Starting the Docker MySQL Container from the image for use in this lab..."
 echo ""
 
-docker run --name my-dbtest -d -e MYSQL_ROOT_PASSWORD=password123 mysql:latest &> /dev/null
+docker run --name my-dbtest -d -e MYSQL_ROOT_PASSWORD=password123 mysql:5.7 &> /dev/null
 
 if [[ $? == 0 ]]; then
   echo "The Docker container called \"my-dbtest\" has been started successfully."
